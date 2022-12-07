@@ -1,0 +1,125 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    overflow: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+  body {
+    color: white;
+    background: black;
+  }
+}
+
+
+
+header{
+  width: 100%;
+  height: 100px;
+  box-shadow: 5px 5px rgb(236, 231, 231);
+}
+
+.headerbody
+{
+  display: flex;
+  justify-content: end;
+  margin-right: 100px;
+  align-items: center; 
+  height: 100px;
+}
+
+
+.loginbtn
+{
+  padding: 15px;
+  border-radius: 5px;
+  color: white;
+  background-color: skyblue;
+  border: none;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+/* In loginPage page css */
+
+.loginboxbody
+{
+  margin: 1%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.loginbox
+{
+  width: 50%;
+  height: 300px;
+  border-radius: 5px;
+  background-color: violet;
+  text-align: center;
+}
+
+.header
+{
+  align-items: center;
+  font-weight: bolder;
+  font-size: larger;
+}
+
+.inputfields
+{
+  display: flex;
+  flex-direction: column;
+  row-gap: 30px;
+}
+.inp
+{
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+}
+
+::placeholder
+{
+  color:darksalmon;
+}
+
+#inps,#loginbtn2
+{
+  display: none;
+  justify-content: center;
+}
+
+#displ2
+{
+  display: none;
+}
+.mobbtn
+{
+  position: relative;
+}
+#alertmsgbox
+{
+  height: 150px;
+  width: 25%;
+  background-color: antiquewhite;
+  position: absolute;
+  top: 150px;
+  border-radius: 5px;
+  display: none;
+}
