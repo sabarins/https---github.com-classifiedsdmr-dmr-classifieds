@@ -62,7 +62,9 @@ export default function LoginPage() {
           // SMS sent. Prompt user to type the code from the message, then sign the
           // user in with confirmationResult.confirm(code).
           window.confirmationResult = confirmationResult;
-          alert("otp sended");
+          // alert("otp sended");
+          document.getElementById("otpmsg").style.display = "block";
+          document.getElementById('otpmsg').innerHTML = "OTP is sent your entered phone number!";
 
           // ...
         }).catch((error) => {
@@ -79,7 +81,10 @@ export default function LoginPage() {
     window.confirmationResult.confirm(otp).then((result) => {
       // User signed in successfully.
       const user = result.user;
-      alert("Verification Done")
+      // alert("Verification Done")
+      document.getElementById("otpmsg").style.display = "none";
+      document.getElementById("verify").style.display = "block";
+      document.getElementById("verify").innerHTML = "Verfied Done!"
       // ...
     }).catch((error) => {
       // User couldn't sign in (bad verification code?)
@@ -98,7 +103,7 @@ export default function LoginPage() {
   {
     if (number === "") 
     {
-      document.getElementById('mobvalidationmsg').innerHTML = "Please Fill Mobile Number!"
+      document.getElementById('mobvalidationmsg').innerHTML = "Please Enter Mobile Number!"
       document.getElementById('mobvalidationmsg').style.display = "block";
     }
     else{
@@ -138,6 +143,9 @@ export default function LoginPage() {
             </div>
             <div>
               <button className='loginbtn' onClick={verifiyCode}>Submit</button>
+            </div>
+            <div>
+              <p id='verify' style={{color:"green",fontWeight:"bolder",display:'none'}}></p>
             </div>
           </div>
           {/* <div>
