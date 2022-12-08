@@ -1,22 +1,15 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useState } from 'react'
 
 
 
-export default function Login() {
+export default function Logins() {
 
 
-     let router = useRouter();
+    let router = useRouter();
 
-     console.log(router);
+    console.log(router);
 
-
-    return (
-        <div className='headerbody'>
-            <div className='logn'>
-                <button className='loginbtn' onClick={()=>router.push('/LoginPage')}>Login</button>
-            </div>
-        </div>
-        )
+   
 }
