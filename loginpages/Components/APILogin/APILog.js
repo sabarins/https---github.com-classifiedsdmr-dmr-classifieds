@@ -3,19 +3,21 @@ import axios from "axios";
 import { useSession, signIn, signOut } from "next-auth/react";
 import Link from "next/link";
 import cookie from "js-cookie";
-import Content from "./BodyContent/Content";
+import Content from "../../pages/Login";
+import { useRouter } from 'next/router'
 
 
 export default function indexLogin({ token }) {
+  let router = useRouter();
   // const { data: session } = useSession()
 
   // console.log({session});
 
-//   useEffect(() => {
-//     console.log(sessionStorage);
-//     sessionStorage.setItem("name",name);
-//     console.log(sessionStorage.getItem("name"));
-//   });
+  //   useEffect(() => {
+  //     console.log(sessionStorage);
+  //     sessionStorage.setItem("name",name);
+  //     console.log(sessionStorage.getItem("name"));
+  //   });
 
   const showlogin = () => {
     document.getElementById("hideshow").style.display = "block";
@@ -26,7 +28,15 @@ export default function indexLogin({ token }) {
 
   let [status, setStatus] = useState("");
 
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(function (position) {
+      console.log("Latitude is :", position.coords.latitude);
+      console.log("Longitude is :", position.coords.longitude);
+    });
+  })
+
   function send() {
+
     axios
       .get(`https://rss.dinamalar.com/internal/send_otp.php?mobile=${number}`, {
         method: "POST",
@@ -35,12 +45,20 @@ export default function indexLogin({ token }) {
       .then((res) => {
         console.log("added", res);
       });
-    document.getElementById("submsg").style.display = "block";
+    document.getElementById("phandsubbtn").style.display = "none";
+    // document.getElementById("submsg").style.display = "block";
     document.getElementById("otpcontent").style.display = "block";
+
+    document.getElementById("senttext").style.display = "block";
+    document.getElementById('edit').style.display = "block";
+
+    document.getElementById("deschide").style.display = "none";
+
   }
 
   function otpverification() {
     let otp = document.getElementById("getotp").value;
+    document.getElementById('deschide').style.display = "none";
     console.log(number, otp);
     fetch(
       `https://rss.dinamalar.com/internal/otpverify.php?mobile=${number}&lg_otp=${otp}`
@@ -51,23 +69,41 @@ export default function indexLogin({ token }) {
         console.log(resp);
       });
 
-    
-     
-  }
-    if(status==="1")
-    {
-        localStorage.setItem("name",name);
-    console.log(localStorage.getItem("name"));
-        document.getElementById("loginon").style.display = "none";
-        document.getElementById("logout").style.display = "block";
+    localStorage.setItem("name", name);
 
-    }
+
+
+  }
+  if (status === "0") {
+    // document.getElementById("submsg").style.display = "none";
+
+    document.getElementById('numberinp').value = "";
+    document.getElementById('getotp').value = "";
+  }
+  if (status === "1") {
+    // document.getElementById("submsg").style.display = "none";
+    document.getElementById("otpcontent").style.display = "none";
+    document.getElementById('hidetxtnumandeditbtn').style.display = "none";
+    document.getElementById('nameinp').style.display = "block";
+
+    // router.push('/Login');
+  }
+
+
+  // if(status==="1")
+  // {
+  //     localStorage.setItem("name",name);
+  // console.log(localStorage.getItem("name"));
+  //     document.getElementById("loginon").style.display = "none";
+  //     document.getElementById("logout").style.display = "block";
+
+  // }
 
   console.log(status);
 
-  
 
- let [lstorage,setLstorage] = useState();
+
+  let [lstorage, setLstorage] = useState();
 
 
   return (
@@ -84,8 +120,8 @@ export default function indexLogin({ token }) {
           >
             Login
           </button>
-          <Content />
-          <button
+          {/* <div>{status === "1" && <Content data={localStorage.getItem("name")} />}</div> */}
+          {/* <button
             onClick={(e) => {
               fetch("/api/logout", {
                 method: "post",
@@ -104,7 +140,7 @@ export default function indexLogin({ token }) {
             style={{ marginLeft: "20px", display:"none", backgroundColor: "red" }}
           >
             Logout
-          </button>
+          </button> */}
         </div>
 
         <div className="rui-3edbr Fy4_1" id="hideshow">
@@ -117,6 +153,7 @@ export default function indexLogin({ token }) {
                 data-aut-id="icon"
                 className
                 fillRule="evenodd"
+                onClick={() => { document.getElementById("hideshow").style.display = "none"; }}
               >
                 <path
                   className
@@ -126,102 +163,108 @@ export default function indexLogin({ token }) {
             </span>
             <div className="_2nMat">
               <span data-aut-id="enteruser-click-back" className="_1nc4-">
-                {/* <svg width="20px" height="20px" viewBox="0 0 1024 1024" data-aut-id="icon" className fillRule="evenodd">
-                            <path className="rui-32D-k" d="M512 124.16v54.827l-302.293 294.187 676.949 0.043 38.827 38.784-38.827 38.784h-676.907l302.251 294.229v54.869h-56.32l-370.347-360.448v-54.869l370.347-360.405h56.32z" />
-                        </svg> */}
+
               </span>
               <div className="_2326- m-5 text-center">
-                <h1> Dinamalar Classifieds </h1>
+                <h1 style={{ marginTop: "50px", textAlign: "center" }}> Dinamalar Classifieds </h1>
               </div>
-              {/* <h3 className="_2SLog">
-              <span>Enter your phone number</span>
-            </h3> */}
+
               <div style={{ marginTop: "60px" }}>
                 <div className="rui-3APY9">
-                  <input
-                    onChange={(e) => {
-                      setName(e.target.value);
-                    }}
-                    name="phone"
-                    type="text"
-                    placeholder="Enter Your Name"
-                    className="rui-3vs1L rui-2LyaK undefined"
-                    id="nameinp"
-                  />
+
                   <div className="rui-1pgaV rui-Vcp5d" />
                 </div>
               </div>
-              <div className="_2PVVq">
-                <div className="rui-3OXDo">
-                  <label htmlFor="phone" />
-                  <div className="rui-2zp0U rui-2rouh">
-                    <div className="rui-z4oOZ rui-3i1AN">
-                      <div className="rui-3zt7h rui-iU02L rui-WrCgP">+91</div>
-                      <div className="rui-3APY9">
-                        <input
-                          onChange={(e) => {
-                            setNumber(e.target.value);
-                          }}
-                          name="phone"
-                          type="text"
-                          autoComplete="mobile"
-                          placeholder="Phone Number"
-                          className="rui-3vs1L rui-2LyaK undefined"
-                        />
-                        <div className="rui-1pgaV rui-Vcp5d" />
+              <div id="phandsubbtn">
+                <div className="_2PVVq" >
+                  <div className="rui-3OXDo" >
+                    <label htmlFor="phone" />
+                    <div className="rui-2zp0U rui-2rouh">
+                      <div className="rui-z4oOZ rui-3i1AN">
+                        <div className="rui-3zt7h rui-iU02L rui-WrCgP">+91</div>
+                        <div className="rui-3APY9">
+                          <input
+                            onChange={(e) => {
+                              setNumber(e.target.value);
+                            }}
+                            name="phone"
+                            type="text"
+                            autoComplete="mobile"
+                            placeholder="Phone Number"
+                            className="rui-3vs1L rui-2LyaK undefined"
+                            id="numberinp"
+                          />
+                          <div className="rui-1pgaV rui-Vcp5d" />
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <p>
-                    <button className="verifybtn" onClick={send}>
-                      SUBMIT
-                    </button>
-                  </p>
-                  <p id="submsg" style={{ display: "none", color: "green" }}>
-                    OTP has been sent from entered phone number!
-                  </p>
-                  <div id="otpcontent" className="otpbody">
-                    <div>
-                      <input
-                        type="text"
-                        className="otpinp"
-                        placeholder="Enter OTP"
-                        id="getotp"
-                      ></input>
-                      {/* <button onClick={otpverification}>Submit</button> */}
-                    </div>
-                    <button
-                      type="submit"
-                      onClick={() => {
-                        otpverification();
-                        if (status === "1") {
-                          console.log(status);
-                          document.getElementById("hideshow").style.display =
-                            "none";
-                        }
-                        fetch("/api/login", {
-                          method: "post",
-                          headers: {
-                            "Content-Type": "application/json",
-                          },
-                          body: JSON.stringify({ token: number }),
-                        });
-                      }}
-                      className="rui-39-wj rui-3mpqt rui-1JPTg _2sWUW "
-                    >
-                      <span style={{ color: "white" }}>VERIFY</span>
-                    </button>
-                  </div>
-                  <div className="rui-1rV1O">
-                    <span
-                      className="rui-3FLBC rui-_74YY"
-                      data-aut-id="error-phone"
-                    />
+                    <p>
+                      <button className="verifybtn" onClick={send}>
+                        SUBMIT
+                      </button>
+                    </p>
                   </div>
                 </div>
               </div>
 
-              <p className="_3bCAe">
+              {/* <p id="submsg" style={{ display: "none", color: "green" }}>
+                  OTP has been sent from entered phone number!
+                </p> */}
+              <div id="hidetxtnumandeditbtn" style={{ display: "flex", columnGap: "20px", fontSize: "15px" }}>
+                <div>
+                  <p id="senttext" style={{ display: "none" }}>We sent a 4 digit code to <b>+91{number}</b></p>
+                </div>
+                <div>
+                  <button id="edit" style={{ display: "none" }} className="editnum">Edit</button>
+                </div>
+              </div>
+              <div id="otpcontent" className="otpbody">
+                {status === "0" && (
+                  <p
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      color: "red",
+                      fontWeight: "bolder"
+                    }}
+                  >
+                    Invalid OTP, Try Again!
+                  </p>
+                )}
+                <div>
+                  <input
+                    type="text"
+                    className="otpinp"
+                    placeholder="Enter OTP"
+                    id="getotp"
+                  ></input>
+                  {/* <button onClick={otpverification}>Submit</button> */}
+                </div>
+                <button style={{ marginTop: "20px" }}
+                  type="submit"
+                  onClick={() => {
+                    otpverification();
+                    // if (status === "1") {
+                    //   console.log(status);
+                    //   document.getElementById("submsg").style.display =
+                    //     "none";
+                    // }
+
+                  }}
+                  className="rui-39-wj rui-3mpqt rui-1JPTg _2sWUW "
+                >
+                  <span>VERIFY</span>
+                </button>
+              </div>
+              <div className="rui-1rV1O">
+                <span
+                  className="rui-3FLBC rui-_74YY"
+                  data-aut-id="error-phone"
+                />
+              </div>
+
+
+              <p id="deschide" className="_3bCAe">
                 <span>
                   Your contact number is never shared with external parties nor
                   do we use it to spam you in any way.
@@ -235,26 +278,51 @@ export default function indexLogin({ token }) {
                     color: "green",
                   }}
                 >
-                  Successfully Verified!
+                  <b>OTP Verified Successfully !</b>
                 </p>
               )}
 
-              {status === "0" && (
-                <p
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    color: "red",
+              <div id="nameinp" style={{display:"none"}}>
+                <input
+                  onChange={(e) => {
+                    setName(e.target.value);
                   }}
-                >
-                  Invalid OTP, Try Again!
-                </p>
-              )}
+                  name="phone"
+                  type="text"
+                  placeholder="Enter Your Name"
+                  className="rui-3vs1L rui-2LyaK undefined"
+                  id="nameinp"
+                />
+                <p id="alertname" style={{display:"none",color:"red",fontWeight:"bolder",textAlign:"center"}}>Please Enter Your Name !</p>
+                <div>
+                <button id="continue" className="namebtn" style={{marginTop:"200px"}} onClick={()=>{
+                  if(name==="" || name.trim==="")
+                  {
+                    document.getElementById("alertname").style.display = "block";
+                  }
+                  else{
+                    router.push('./Login')}
+                  }}>
+                 Continue
+                </button>
+                </div>
+              </div>
+
+              {/* {status === "0" && (
+                  <p
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      color: "red",
+                    }}
+                  >
+                    Invalid OTP, Try Again!
+                  </p>
+                )} */}
             </div>
           </div>
         </div>
       </div>
-      <div>{status === "1" && <Content data={localStorage.getItem("name")} />}</div>
     </div>
   );
 }

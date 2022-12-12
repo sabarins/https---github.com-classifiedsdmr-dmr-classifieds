@@ -8285,6 +8285,31 @@ h3 {
 #nameinp
 {
   width: 100%;
-  padding: 10px;
-  
+  padding: 20px;
+}
+
+.editnum
+{
+  color: white;
+  background-color: red;
+  border-radius: 5px;
+  border: none;
+  padding: 5px 10px 5px 10px;
+}
+
+#edit
+{
+  margin-top: 10px;
+}
+
+.namebtn
+{
+  width: 100%;
+  padding: 20px;
+  color: white;
+  background-color:#ff5636;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bolder;
 }
